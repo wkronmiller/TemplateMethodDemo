@@ -1,46 +1,75 @@
 <!doctype html>
 <html>
 <head>
+  <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css' rel='stylesheet' integrity='sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==' crossorigin='anonymous'>
 </head>
   <body>
-    <h1>Bad Libs: A Demo of Template Methods</h1>
-    <h2> The Parent Class</h2>
-    <div id='sourcePlace'></div>
-    <h2>Our Child Class</h2>
-    <textarea id='delegated' style='height:250px;width:450px'>
-      //Child class with Template Methods implemented
-      var myDocumentMaker = function(){
-        that = documentMaker();
-        that.makeNoun = function(){
-          return 'Sturman';
-        };
-        that.makeVerb = function(){
-          return 'likes';
-        }
-        that.makeObject = function(){
-          return 'honey';
-        }
+    <div class='row'>
+      <div class='container'>
+        <h1>Bad Libs: A Demo of Template Methods</h1>
+      </div>
+    </div>
+    <div class='row'>
+    <div class='container'>
+        <h2>Our Driver Function</h2>
+        <pre id='driverMethod' style='width:500px'></pre>
+    </div>
+    <div class='row'>
+      <div class='container'>
+        <div class='col-sm-6' style='min-width:500px'>
+          <h2>The Parent Class</h2>
+          <pre id='sourcePlace'></pre>
+        </div>
+        <div class='col-sm-6'>
+          <h2>Our Child Class</h2>
+          <textarea id='delegated' style='height:410px;width:410px'>
+            //Child class with Template Methods implemented
+            var myDocumentMaker = function(){
+              //Inherit from documentMaker
+              that = documentMaker();
+              //Implement makeNoun()
+              that.makeNoun = function(){
+                return 'Sturman';
+              };
+              //Implement makeVerb()
+              that.makeVerb = function(){
+                return 'likes';
+              }
+              //Implement makeObject()
+              that.makeObject = function(){
+                return 'honey';
+              }
 
-        return that;
-      }
-    </textarea>
-    <h2> The generated message: </h2>
-    <p id='Message'></p>
-    <button onclick='makeDocument()'>Generate Message</button>
-    <script id='mainSource'>
-      //documentMaker is a functional JS Class
+              return that;
+            }
+          </textarea>
+          <h2> The generated message: </h2>
+          <p><samp id='Message'></samp></p>
+          <button onclick='makeDocument()' class='btn'>Regenerate Message</button>
+        </div>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='container'>
+        <h3>Console Output:</h3>
+        <samp id='console'></samp>
+      </div>
+    </div>
+    <script id='mainClass'>
+      //documentMaker is 
+      //a functional JS Class
       var documentMaker = function(){
-        //JS Functional OO version of 'this'
         that = {};
         
         //Concrete Method
         that.makeArticle = function(){
           return 'The';
         };
-              
-        that.makeNoun = function(){};//Abstract method
-        that.makeVerb = function(){};//Abstract method
-        that.makeObject = function(){};//Abstract method
+        
+        //Abstract Methods
+        that.makeNoun = function(){};
+        that.makeVerb = function(){};
+        that.makeObject = function(){};
         
         //Concrete Method
         that.makeSentence = function(){
@@ -54,7 +83,8 @@
 
         return that;
       }
-
+    </script>
+    <script id='mainMethod'>
       //Our main method
       var makeDocument = function(){
         //Convert plain text to javascript
@@ -64,13 +94,26 @@
         docMaker = myDocumentMaker();
 
         //Populate message box
-        document.getElementById('Message').innerText = docMaker.makeSentence();
+        document.getElementById('Message').innerText = 
+          docMaker.makeSentence();
       }
-
     </script>
     <script>
       //Show our source code
-      document.getElementById('sourcePlace').innerText = document.getElementById('mainSource').innerHTML;
+      document.getElementById('sourcePlace').innerText = document.getElementById('mainClass').innerHTML;
+      document.getElementById('driverMethod').innerText = document.getElementById('mainMethod').innerHTML;
+
+      //Capture console output
+      console.log = function(message){
+        document.getElementById('console').innerText += '\n' + message;
+      }
+      console.error = function(message){
+        console.log(message);
+      }
+      //Capture errors
+      window.addEventListener('error', function(error){
+          console.log(error.message);
+          }, true);
       //Execute on load
       makeDocument();
     </script>
