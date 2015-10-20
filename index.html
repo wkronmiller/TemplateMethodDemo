@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+</head>
+<body>
+<h2> The delegated function </h2>
+<textarea id="delegated" style="height:100px;width:300px">
+var getAnimal = function(){
+    return "Chicken";
+}
+</textarea>
+
+<h2> The generated message: </h2>
+<p id="Message"></p>
+<button onclick="makeDocument()">Generate Message</button>
+<script>
+//Our main method
+var makeDocument = function(){
+  //A method we never change
+  var person = (function(){
+      return "Bob";
+      })();
+  //Convert plain text to javascript
+  eval(document.getElementById("delegated").value);
+  //Execute template method
+  var animal = getAnimal();
+  //Generate message
+  var doc = person + " is a farmer who farms " + animal;
+  //Populate message box
+  document.getElementById("Message").innerText = doc;
+}
+//Execute on load
+makeDocument();
+</script>
+</body>
+<html>
