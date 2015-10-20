@@ -2,35 +2,77 @@
 <html>
 <head>
 </head>
-<body>
-<h2> The delegated function </h2>
-<textarea id="delegated" style="height:100px;width:300px">
-var getAnimal = function(){
-    return "Chicken";
-}
-</textarea>
+  <body>
+    <h1>Bad Libs: A Demo of Template Methods</h1>
+    <h2> The Parent Class</h2>
+    <div id='sourcePlace'></div>
+    <h2>Our Child Class</h2>
+    <textarea id='delegated' style='height:250px;width:450px'>
+      //Child class with Template Methods implemented
+      var myDocumentMaker = function(){
+        that = documentMaker();
+        that.makeNoun = function(){
+          return 'Sturman';
+        };
+        that.makeVerb = function(){
+          return 'likes';
+        }
+        that.makeObject = function(){
+          return 'honey';
+        }
 
-<h2> The generated message: </h2>
-<p id="Message"></p>
-<button onclick="makeDocument()">Generate Message</button>
-<script>
-//Our main method
-var makeDocument = function(){
-  //A method we never change
-  var person = (function(){
-      return "Bob";
-      })();
-  //Convert plain text to javascript
-  eval(document.getElementById("delegated").value);
-  //Execute template method
-  var animal = getAnimal();
-  //Generate message
-  var doc = person + " is a farmer who farms " + animal;
-  //Populate message box
-  document.getElementById("Message").innerText = doc;
-}
-//Execute on load
-makeDocument();
-</script>
-</body>
+        return that;
+      }
+    </textarea>
+    <h2> The generated message: </h2>
+    <p id='Message'></p>
+    <button onclick='makeDocument()'>Generate Message</button>
+    <script id='mainSource'>
+      //documentMaker is a functional JS Class
+      var documentMaker = function(){
+        //JS Functional OO version of 'this'
+        that = {};
+        
+        //Concrete Method
+        that.makeArticle = function(){
+          return 'The';
+        };
+              
+        that.makeNoun = function(){};//Abstract method
+        that.makeVerb = function(){};//Abstract method
+        that.makeObject = function(){};//Abstract method
+        
+        //Concrete Method
+        that.makeSentence = function(){
+            var sentence = that.makeArticle() + 
+                           ' ' + that.makeNoun() + 
+                           ' ' + that.makeVerb() + 
+                           ' ' + that.makeObject() + '.';
+
+            return sentence;
+        };
+
+        return that;
+      }
+
+      //Our main method
+      var makeDocument = function(){
+        //Convert plain text to javascript
+        eval(document.getElementById('delegated').value);
+
+        //Instantiate child class
+        docMaker = myDocumentMaker();
+
+        //Populate message box
+        document.getElementById('Message').innerText = docMaker.makeSentence();
+      }
+
+    </script>
+    <script>
+      //Show our source code
+      document.getElementById('sourcePlace').innerText = document.getElementById('mainSource').innerHTML;
+      //Execute on load
+      makeDocument();
+    </script>
+  </body>
 <html>
