@@ -106,6 +106,7 @@
       //Capture console output
       console.log = function(message){
         document.getElementById('console').innerText += '\n' + message;
+        window.scrollTo(0, window.innerHeight);
       }
       console.error = function(message){
         console.log(message);
